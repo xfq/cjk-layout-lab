@@ -46,6 +46,9 @@ const experiments = [
 		<header class="lab-header">
 			<h1><span class="punct">「</span>CJK Layout Lab<span class="punct">」</span></h1>
 			<p class="subtitle">Exploring modern Web typography.</p>
+			<p class="resource-link">
+				<a href="https://www.w3.org/International/" target="_blank">W3C Internationalization Activity</a>
+			</p>
 		</header>
 
 		<section class="gallery">
@@ -125,6 +128,24 @@ const experiments = [
     color: #555;
     line-height: 1.6;
     margin-bottom: var(--space-loose);
+  }
+
+  .resource-link {
+    margin: 0;
+    font-size: 0.95rem;
+    font-family: var(--font-ui);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .resource-link a {
+    color: var(--color-accent);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.2em;
+  }
+
+  .resource-link a:hover {
+    color: var(--color-text);
   }
 
   /* Gallery Grid */

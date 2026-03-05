@@ -1,0 +1,224 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const experiments = [
+  {
+    title: "Writing Modes",
+    description: "Multiple Writing Modes and Orientation.",
+    url: "/demos/writing-mode.html",
+    tag: "CSS Writing Modes Level 3",
+    size: "large"
+  },
+  {
+    title: "Traditional Book",
+    description: "Classic Chinese printing simulation.",
+    url: "/demos/traditional-book.html",
+    tag: "CSS Writing Modes + CSS Text",
+    size: "medium"
+  },
+  {
+    title: "Chinese Line Breaking",
+    description: "Chinese punctuation line breaking rules.",
+    url: "/demos/zh-line-breaking.html",
+    tag: "CSS Text Level 3",
+    size: "medium"
+  },
+  {
+    title: "Symbol of death",
+    description: "Chinese personal-name death marking.",
+    url: "/demos/shiwanghao.html",
+    tag: "CSS Backgrounds and Borders Level 3",
+    size: "medium"
+  },
+  {
+    title: "Ruby Annotations",
+    description: "Complex phonetic guide.",
+    url: null,
+    tag: "HTML Ruby",
+    size: "small"
+  }
+];
+---
+
+<Layout title="The CJK Layout Lab">
+	<main class="lab-container">
+		<header class="lab-header">
+			<h1><span class="punct">「</span>CJK Layout Lab<span class="punct">」</span></h1>
+			<p class="subtitle">Exploring modern Web typography.</p>
+		</header>
+
+		<section class="gallery">
+			{experiments.map((exp) => (
+				exp.url ? (
+					<a href={exp.url} class={`experiment-card card-${exp.size}`}>
+						<div class="card-inner">
+	            <span class="metadata">{exp.tag}</span>
+	            <h2>{exp.title}</h2>
+	            <p>{exp.description}</p>
+	          </div>
+					</a>
+				) : (
+					<article class={`experiment-card card-${exp.size} is-disabled`} aria-disabled="true">
+						<div class="card-inner">
+	            <span class="metadata">{exp.tag}</span>
+	            <h2>{exp.title}</h2>
+	            <p>{exp.description}</p>
+	          </div>
+					</article>
+				)
+			))}
+		</section>
+	</main>
+</Layout>
+
+<style>
+  /* Base Grid Setup */
+  .lab-container {
+    --grid-unit: 80px; /* Base U */
+    --gap-size: var(--space-normal);
+    
+    display: grid;
+    min-height: 100vh;
+    padding: var(--space-loose) var(--space-normal);
+  }
+
+  /* Desktop Asymmetrical Layout */
+  @media (min-width: 1024px) {
+    .lab-container {
+      grid-template-columns: 35% 1fr;
+      padding: var(--space-huge) 0 0 var(--space-huge);
+      gap: var(--space-loose);
+    }
+  }
+
+  /* Header Typography */
+  .lab-header {
+    position: relative;
+    max-width: 480px;
+  }
+
+  @media (min-width: 1024px) {
+    .lab-header {
+      position: sticky;
+      top: var(--space-huge);
+      height: min-content;
+    }
+  }
+
+  h1 {
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 1.1;
+    margin-bottom: var(--space-normal);
+  }
+
+  .punct {
+    color: var(--color-accent);
+    font-weight: 400; /* Punctuations can be lighter */
+  }
+
+  .subtitle {
+    font-family: var(--font-serif);
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: var(--space-loose);
+  }
+
+  /* Gallery Grid */
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-loose);
+    padding-bottom: var(--space-huge);
+  }
+
+  @media (min-width: 1024px) {
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(calc(var(--grid-unit) * 3), 1fr));
+      grid-auto-rows: min-content;
+      gap: var(--space-normal);
+      padding-right: var(--space-huge);
+    }
+
+    .card-large { grid-column: span 3; }
+    .card-medium { grid-column: span 2; }
+    .card-small { grid-column: span 1; }
+  }
+
+  /* Card Component */
+  .experiment-card {
+    display: block;
+    padding: var(--space-normal) 0;
+    border-top: 2px solid var(--color-text);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .experiment-card:hover {
+    border-top-color: var(--color-accent);
+    transform: translateY(calc(var(--space-tight) * -1));
+  }
+
+  .experiment-card:hover .metadata {
+    color: var(--color-text);
+  }
+
+  .experiment-card:hover h2 {
+    color: var(--color-accent);
+  }
+
+  .experiment-card.is-disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+
+  .experiment-card.is-disabled:hover {
+    border-top-color: var(--color-text);
+    transform: none;
+  }
+
+  .experiment-card.is-disabled:hover .metadata {
+    color: var(--color-accent);
+  }
+
+  .experiment-card.is-disabled:hover h2 {
+    color: inherit;
+  }
+
+  .card-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-tight);
+  }
+
+  .experiment-card h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 0;
+    transition: color 0.3s;
+  }
+
+  .metadata {
+    color: var(--color-accent);
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .experiment-card p {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    color: #666;
+    margin: var(--space-tight) 0 0 0;
+    line-height: 1.6;
+  }
+</style>

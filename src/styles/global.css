@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700;900&display=swap');
+
+:root {
+  /* Baseline Grid system */
+  --baseline: 8px;
+  --space-tight: calc(var(--baseline) * 1);  /* 8px */
+  --space-normal: calc(var(--baseline) * 3); /* 24px */
+  --space-loose: calc(var(--baseline) * 12); /* 96px */
+  --space-huge: calc(var(--baseline) * 20);  /* 160px */
+  
+  /* Extreme Contrast Colors */
+  --color-bg: #FFFFFF;
+  --color-text: #111111;
+  --color-accent: #E83929; /* Cinnabar Red */
+  --color-accent-alt: #1F4788; /* Lapis Blue as alternative */
+
+  /* Typography */
+  --font-ui: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-serif: 'EB Garamond', serif;
+}
+
+/* From https://github.com/w3c/clreq/blob/gh-pages/local.css */
+:lang(zh-hant) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', 'PingFang TC', 'Noto Sans CJK TC', 'Noto Sans TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif;
+  text-autospace: normal;
+}
+
+:lang(zh-hans) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', 'PingFang SC', 'Noto Sans CJK SC', 'Noto Sans SC', 'Heiti SC', 'DengXian', 'Microsoft YaHei', sans-serif;
+  text-autospace: normal;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: var(--font-ui);
+  line-height: 1.2;
+}
+
+p {
+  margin: 0 0 var(--space-normal) 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

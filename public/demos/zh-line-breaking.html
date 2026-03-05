@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinese Line Breaking Demo | CJK Layout Lab</title>
+  <style>
+    :root {
+      --baseline: 8px;
+      --color-bg: #f8f7f3;
+      --color-card: #ffffff;
+      --color-text: #111111;
+      --color-accent: #e83929;
+      --color-rule: rgba(17, 17, 17, 0.16);
+      --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --font-text: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--color-text);
+      font-family: var(--font-ui);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(232, 57, 41, 0.08), transparent 36%),
+        radial-gradient(circle at 86% 82%, rgba(0, 0, 0, 0.06), transparent 38%),
+        var(--color-bg);
+    }
+
+    .lab-nav {
+      position: fixed;
+      inset: calc(var(--baseline) * 2) calc(var(--baseline) * 3) auto;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: calc(var(--baseline) * 2);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      width: calc(100% - var(--baseline) * 6);
+    }
+
+    .lab-nav a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .lab-nav a:hover {
+      border-bottom-color: var(--color-accent);
+    }
+
+    .page {
+      width: min(1120px, 94vw);
+      margin: 0 auto;
+      padding: calc(var(--baseline) * 12) 0 calc(var(--baseline) * 7);
+      display: grid;
+      gap: calc(var(--baseline) * 4);
+    }
+
+    .tag {
+      margin: 0 0 calc(var(--baseline) * 1.5) 0;
+      color: var(--color-accent);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.18;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      font-family: var(--font-text);
+    }
+
+    .top-compare {
+      display: grid;
+      gap: calc(var(--baseline) * 2);
+      grid-template-columns: minmax(0, 1.45fr) minmax(280px, 1fr);
+      align-items: start;
+    }
+
+    .rules {
+      display: grid;
+      gap: calc(var(--baseline) * 1.5);
+    }
+
+    .rules-panel {
+      background: var(--color-card);
+      border: 1px solid var(--color-rule);
+      padding: calc(var(--baseline) * 3);
+      display: grid;
+      gap: calc(var(--baseline) * 1.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .rules-title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-family: var(--font-text);
+    }
+
+    .rule-card {
+      background: rgba(17, 17, 17, 0.02);
+      border: 1px solid var(--color-rule);
+      padding: calc(var(--baseline) * 3);
+    }
+
+    .rule-card h2 {
+      margin: 0 0 calc(var(--baseline) * 2) 0;
+      font-size: 1.15rem;
+      line-height: 1.4;
+      font-family: var(--font-text);
+    }
+
+    .rule-list {
+      margin: 0;
+      padding-left: 1.1rem;
+      display: grid;
+      gap: calc(var(--baseline) * 0.75);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .demo-panel {
+      background: var(--color-card);
+      border: 1px solid var(--color-rule);
+      padding: calc(var(--baseline) * 4);
+      display: grid;
+      gap: calc(var(--baseline) * 2.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .demo-panel h2,
+    .demo-panel h1 {
+      margin: 0;
+      font-family: var(--font-text);
+    }
+
+    .demo-panel h2 {
+      font-size: 1.35rem;
+    }
+
+    .demo-panel p {
+      margin: 0;
+      line-height: 1.8;
+    }
+
+    .viewport {
+      border: 1px dashed rgba(17, 17, 17, 0.35);
+      background: linear-gradient(180deg, rgba(232, 57, 41, 0.04), transparent 42%);
+      padding: calc(var(--baseline) * 2);
+    }
+
+    .resizable {
+      width: 28ch;
+      min-width: 12ch;
+      max-width: min(86vw, 30em);
+      resize: horizontal;
+      overflow: auto;
+      border: 1px solid rgba(17, 17, 17, 0.25);
+      background: #fff;
+      padding: calc(var(--baseline) * 2.5);
+      font-family: var(--font-text);
+      line-height: 2;
+      text-align: justify;
+      line-break: strict;
+      word-break: normal;
+      overflow-wrap: normal;
+      box-shadow: inset 0 0 0 1px rgba(232, 57, 41, 0.06);
+    }
+
+    .resizable p {
+      margin: 0;
+      font-size: 1.03rem;
+    }
+
+    .resizable p + p {
+      margin-top: calc(var(--baseline) * 1.5);
+    }
+
+    .hint {
+      color: rgba(17, 17, 17, 0.72);
+      font-size: 0.9rem;
+    }
+
+    .source-link {
+      color: rgba(17, 17, 17, 0.78);
+      font-size: 0.88rem;
+    }
+
+    .source-link a {
+      color: var(--color-accent);
+      text-underline-offset: 0.16em;
+    }
+
+    .source-link a:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    code {
+      font-family: "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Fira Code", "Consolas", "Liberation Mono", "Menlo", monospace;
+      font-size: 0.9em;
+      background: rgba(17, 17, 17, 0.06);
+      padding: 0.1em 0.3em;
+    }
+
+    .legend {
+      margin: 0;
+      padding: calc(var(--baseline) * 2);
+      border: 1px solid rgba(17, 17, 17, 0.2);
+      background: rgba(17, 17, 17, 0.02);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .legend strong {
+      color: var(--color-accent);
+    }
+
+    @media (max-width: 700px) {
+      .lab-nav span {
+        display: none;
+      }
+
+      .page {
+        padding: calc(var(--baseline) * 10) 0 calc(var(--baseline) * 5);
+      }
+
+      .top-compare {
+        grid-template-columns: 1fr;
+      }
+
+      .rules-panel,
+      .demo-panel {
+        padding: calc(var(--baseline) * 3);
+      }
+
+      .resizable {
+        width: 22ch;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .top-compare {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="lab-nav" aria-label="Demo navigation">
+    <a href="/">&larr; Back to Lab</a>
+    <span>CSS Text Level 3</span>
+  </nav>
+
+  <main class="page">
+    <section class="top-compare">
+      <section class="demo-panel" aria-label="Resizable text test area">
+        <p class="tag">Chinese Line Breaking Demo</p>
+        <h1>中文禁则换行演示</h1>
+        <h2>可调宽度观察区</h2>
+        <p class="hint">拖动下框右下角可调整宽度，观察换行禁则。</p>
+        <div class="viewport">
+          <div class="resizable" lang="zh-Hans">
+            <p>排字师记录道：“禁则换行先看行首，再看行尾。”这句话里含有逗号、句号和结束引号，适合在窄列里观察。</p>
+            <p>有两本书叫做《城市／道路》和《甲/乙》，括注（测试项一）：斜杠不应出现在行首或行尾。</p>
+            <p>所以，“顿号、分号；叹号！问号？都不能顶到下一行。”而且，连接号A—B、C～D、E–F也是一样。</p>
+            <p>人物示例为“比尔·盖茨”。再补一句：规则清楚，阅读就顺。</p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="rules-panel" aria-label="Line breaking rules">
+        <h2 class="rules-title">规则速查</h2>
+        <section class="rules">
+          <article class="rule-card">
+            <h2>不能出现在一行开头</h2>
+            <ul class="rule-list">
+              <li>顿号、（U+3001）</li>
+              <li>逗号，（U+FF0C）</li>
+              <li>句号。（U+3002）</li>
+              <li>冒号：（U+FF1A）</li>
+              <li>分号；（U+FF1B）</li>
+              <li>叹号！（U+FF01）</li>
+              <li>问号？（U+FF1F）</li>
+              <li>结束引号”（U+201D）</li>
+              <li>结束括号）（U+FF09）</li>
+              <li>结束书名号》（U+300B）</li>
+              <li>连接号—（U+2014）、～（U+FF5E）、–（U+2013）</li>
+              <li>间隔号·（U+00B7）</li>
+              <li>分隔号/（U+002F）和／（U+FF0F）</li>
+            </ul>
+          </article>
+
+          <article class="rule-card">
+            <h2>不能出现在一行结尾</h2>
+            <ul class="rule-list">
+              <li>开始引号“（U+201C）</li>
+              <li>开始括号（（U+FF08）</li>
+              <li>开始书名号《（U+300A）</li>
+              <li>分隔号/（U+002F）和／（U+FF0F）</li>
+            </ul>
+          </article>
+        </section>
+        <p class="source-link">另见：<a href="https://www.w3.org/TR/clreq/#prohibition_rules_for_line_start_end" target="_blank">W3C《中文排版需求》</a></p>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>

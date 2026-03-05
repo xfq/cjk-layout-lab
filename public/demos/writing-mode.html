@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Writing Modes Experiment | CJK Layout Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Standalone CSS for maximum portability */
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700;900&display=swap');
+
+    :root {
+      --baseline: 8px;
+      --color-bg: #FFFFFF;
+      --color-text: #111111;
+      --color-accent: #E83929;
+      --font-ui: 'Inter', -apple-system, system-ui, sans-serif;
+      --font-serif: 'EB Garamond', serif;
+    }
+
+:lang(zh-hant) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', 'PingFang TC', 'Noto Sans CJK TC', 'Noto Sans TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif;
+  text-autospace: normal;
+}
+
+:lang(zh-hans) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', 'PingFang SC', 'Noto Sans CJK SC', 'Noto Sans SC', 'Heiti SC', 'DengXian', 'Microsoft YaHei', sans-serif;
+  text-autospace: normal;
+}
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-serif);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Nav */
+    .lab-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: calc(var(--baseline) * 2) calc(var(--baseline) * 4);
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      mix-blend-mode: difference;
+      color: white;
+      z-index: 100;
+      pointer-events: none;
+    }
+    .lab-nav a {
+      pointer-events: auto;
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .lab-nav a:hover {
+      opacity: 0.7;
+    }
+
+    /* Split Layout */
+    .experiment-split {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    @media (min-width: 768px) {
+      .experiment-split {
+        flex-direction: row;
+      }
+    }
+
+    .pane {
+      flex: 1;
+      padding: calc(var(--baseline) * 12) calc(var(--baseline) * 6);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .pane.dark {
+      background: var(--color-text);
+      color: var(--color-bg);
+    }
+    .pane.dark .accent {
+      color: var(--color-accent);
+    }
+
+    /* Writing Modes */
+    .horizontal {
+      writing-mode: horizontal-tb;
+    }
+    
+    .vertical {
+      writing-mode: vertical-rl;
+      align-items: center; /* Center block in flex container */
+      height: 100%;
+    }
+
+    .content {
+      width: min(42rem, 100%);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin: 0 0 calc(var(--baseline) * 4) 0;
+    }
+    .vertical h1 {
+      margin: 0 calc(var(--baseline) * 4) 0 0;
+    }
+
+    p {
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      text-align: justify;
+      margin: 0;
+    }
+
+    code,
+    :lang(zh-hans) code,
+    :lang(zh-hant) code {
+      font-family: 'SFMono-Regular', 'Cascadia Code', 'JetBrains Mono', 'Fira Code', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+    }
+
+    .multicol {
+      column-count: 2;
+      column-gap: calc(var(--baseline) * 4);
+      column-fill: balance;
+      column-rule: 1px solid rgba(17, 17, 17, 0.2);
+      margin-top: calc(var(--baseline) * 2);
+    }
+    .multicol p {
+      break-inside: avoid;
+    }
+    .multicol p + p {
+      margin-top: calc(var(--baseline) * 2);
+    }
+    .pane.dark .multicol {
+      column-rule-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Paragraph indentation style */
+    .indent p {
+      text-indent: 2em;
+    }
+    .vertical.indent p {
+      text-indent: 2em;
+    }
+
+    .tag {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--color-accent);
+      letter-spacing: 0.1em;
+      margin-bottom: calc(var(--baseline) * 2);
+    }
+    .vertical .tag {
+      margin-bottom: 0;
+      margin-left: calc(var(--baseline) * 2);
+    }
+    
+    .punctuation {
+      font-family: var(--font-serif);
+      color: var(--color-accent);
+    }
+
+    /* Keep Latin abbreviations upright in vertical text */
+    .vertical .upright-abbr {
+      text-orientation: upright;
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="lab-nav">
+    <a href="/">&larr; Back to Lab</a>
+    <span>CSS Writing Modes Level 3</span>
+  </nav>
+
+  <main class="experiment-split">
+    
+    <!-- Horizontal Pane -->
+    <section class="pane light horizontal indent" lang="zh-Hans">
+      <div class="content">
+        <div class="tag">WRITING-MODE: HORIZONTAL-TB + MULTI-COLUMN</div>
+        <h1>横排版式<span class="punctuation">。</span></h1>
+        <div class="multicol">
+          <p>自西方印刷术传入并与现代计算机技术结合后，横向排版不仅成为了目前万维网（World Wide Web）最基础、最默认的文本呈现方式，也逐渐塑造了当代读者在屏幕上由左至右、由上而下的信息接收节奏。</p>
+          <p>在这个模式下，我们可以利用原生的CSS属性 <code>text-indent: 2em;</code> 完美实现传统的首行缩进两字。而在中文排版中，为了达到更优的视觉边缘，我们通常会开启 <code>text-align: justify;</code> 以实现两端对齐。</p>
+          <p>当内容长度较大时，借助 <code>column-count</code> 与 <code>column-gap</code> 可以进行分栏，让阅读节奏更接近杂志与报刊的编排方式。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vertical Pane -->
+    <section class="pane dark vertical indent" lang="zh-Hant">
+      <div class="content">
+        <div class="tag">WRITING-MODE: VERTICAL-RL + MULTI-COLUMN</div>
+        <h1>直排版式<span class="punctuation">。</span></h1>
+        <div class="multicol">
+          <p>自古以來的竹簡與線裝書，皆採用由上至下、由右至左的書寫習慣；這種直排閱讀邏輯深刻影響了東亞長期以來的文獻形態，也讓文字在空間中的行進方向承載了明確的文化記憶。</p>
+          <p>透過<span class="upright-abbr">CSS</span>屬性 <code>writing-mode: vertical-rl;</code>，我們可以在不改變任何<span class="upright-abbr">HTML</span>結構的前提下，瞬間將網頁轉換為傳統的東亞直排佈局。在該佈局下，不僅文字方向發生了改變，瀏覽器的滾動條、盒模型的邏輯方向也隨之進行了無縫的映射換位。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

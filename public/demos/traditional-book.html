@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traditional Book Demo | CJK Layout Lab</title>
+  <style>
+    :root {
+      --baseline: 8px;
+      --color-bg: #f4efe5;
+      --color-ink: #161616;
+      --color-accent: #e83929;
+      --color-rule: rgba(22, 22, 22, 0.25);
+      --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --font-book: "Kaiti TC", "Songti TC", "STSong", "Noto Serif CJK TC", "Source Han Serif TC", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.6), transparent 35%),
+        radial-gradient(circle at 80% 90%, rgba(0, 0, 0, 0.05), transparent 40%),
+        var(--color-bg);
+      color: var(--color-ink);
+      font-family: var(--font-ui);
+      display: grid;
+      place-items: center;
+      padding: calc(var(--baseline) * 14) calc(var(--baseline) * 4) calc(var(--baseline) * 6);
+    }
+
+    .lab-nav {
+      position: fixed;
+      inset: calc(var(--baseline) * 2) calc(var(--baseline) * 3) auto;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: calc(var(--baseline) * 2);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-ink);
+      width: calc(100% - var(--baseline) * 6);
+    }
+
+    .lab-nav a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .lab-nav a:hover {
+      border-bottom-color: var(--color-accent);
+    }
+
+    .book-page {
+      width: min(960px, 92vw);
+      min-height: min(78vh, 760px);
+      background: #f8f3e8;
+      border: 1px solid var(--color-rule);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      position: relative;
+    }
+
+    .book-page::before {
+      content: "";
+      position: absolute;
+      inset: calc(var(--baseline) * 2);
+      border: 1px solid rgba(22, 22, 22, 0.2);
+      pointer-events: none;
+    }
+
+    .page-content {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      height: 100%;
+      width: fit-content;
+      max-width: 100%;
+      margin-left: auto;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: calc(var(--baseline) * 8) calc(var(--baseline) * 10);
+      font-family: var(--font-book);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .page-content > * {
+      margin: 0;
+    }
+
+    .page-content > * + * {
+      margin-block-start: calc(var(--baseline) * 3);
+    }
+
+    .title-block {
+      border-inline-end: 1px solid var(--color-rule);
+      padding-inline-end: calc(var(--baseline) * 2);
+    }
+
+    .tag {
+      color: var(--color-accent);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-indent: 0;
+      margin-inline-end: calc(var(--baseline) * 2);
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: 0.16em;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .subtitle {
+      color: rgba(22, 22, 22, 0.7);
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-indent: 0;
+      margin-inline-start: calc(var(--baseline) * 2);
+    }
+
+    p {
+      font-size: clamp(1.06rem, 1.7vw, 1.3rem);
+      line-height: 1.95;
+      letter-spacing: 0.08em;
+      text-align: justify;
+      text-indent: 2em;
+    }
+
+    .proper-noun {
+      text-decoration-line: underline;
+      text-decoration-style: solid;
+      text-decoration-thickness: 0.09em;
+      text-underline-offset: 0.16em;
+      text-decoration-skip-ink: none;
+    }
+
+    .colophon {
+      color: var(--color-accent);
+      text-indent: 0;
+      letter-spacing: 0.14em;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      border-inline-start: 1px solid var(--color-rule);
+      padding-inline-start: calc(var(--baseline) * 2);
+      align-self: stretch;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        padding: calc(var(--baseline) * 12) calc(var(--baseline) * 2) calc(var(--baseline) * 4);
+      }
+
+      .book-page {
+        width: min(640px, 96vw);
+        min-height: 74vh;
+      }
+
+      .page-content {
+        padding: calc(var(--baseline) * 5) calc(var(--baseline) * 6);
+      }
+
+      .page-content > * + * {
+        margin-block-start: calc(var(--baseline) * 2);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .lab-nav {
+        font-size: 0.7rem;
+      }
+
+      .lab-nav span {
+        display: none;
+      }
+
+      .book-page {
+        min-height: 70vh;
+      }
+
+      .page-content {
+        padding: calc(var(--baseline) * 4);
+      }
+
+      p {
+        font-size: 1rem;
+        line-height: 1.85;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="lab-nav" aria-label="Demo navigation">
+    <a href="/">&larr; Back to Lab</a>
+    <span>CSS Writing Modes + CSS Text</span>
+  </nav>
+
+  <article class="book-page" lang="zh-Hant" aria-label="Traditional Chinese vertical typesetting demo">
+    <section class="page-content">
+      <header class="title-block">
+        <p class="tag">TRADITIONAL BOOK DEMO</p>
+        <h1>線裝書頁</h1>
+        <p class="subtitle">以現代 CSS 復刻古籍閱讀節奏</p>
+      </header>
+
+      <p>春雨初歇，城中書肆重開，士子攜卷相訪。掌櫃言昨夜新到《河西雜記》，記載<span class="proper-noun">長安</span>至<span class="proper-noun">洛陽</span>驛路、津渡與里數，凡地名皆以專名號標示，讀者過目即能辨識其為實地，不與常詞混同。</p>
+
+      <p>又載詩人<span class="proper-noun">杜甫</span>、<span class="proper-noun">王維</span>同遊終南，沿<span class="proper-noun">渭水</span>而行，見山色如黛。此頁以 <span lang="en">writing-mode: vertical-rl</span> 排列，文字由上而下、行列由右而左，與傳統冊頁的閱讀方向一致。</p>
+
+      <p>每段首行以 <span lang="en">text-indent: 2em;</span> 起筆，令章句開合更分明。</p>
+
+      <p>書末附識：凡涉人名、地名、朝代、國號，皆可套用<span class="proper-noun">專名號</span>樣式。此處示例僅用原生 HTML 與 CSS，無額外腳本依賴。</p>
+
+      <p class="colophon">CJK Layout Lab</p>
+    </section>
+  </article>
+</body>
+</html>

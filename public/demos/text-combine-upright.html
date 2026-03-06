@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Combine Upright Demo | CJK Layout Lab</title>
+  <style>
+    :root {
+      --baseline: 8px;
+      --color-bg: #f6f2ea;
+      --color-card: #ffffff;
+      --color-text: #111111;
+      --color-accent: #e83929;
+      --color-rule: rgba(17, 17, 17, 0.16);
+      --color-muted: rgba(17, 17, 17, 0.72);
+      --line-step: 3.2rem;
+      --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --font-text: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--color-text);
+      font-family: var(--font-ui);
+      background:
+        radial-gradient(circle at 14% 16%, rgba(232, 57, 41, 0.1), transparent 32%),
+        radial-gradient(circle at 85% 82%, rgba(0, 0, 0, 0.06), transparent 34%),
+        var(--color-bg);
+    }
+
+    .lab-nav {
+      position: fixed;
+      inset: calc(var(--baseline) * 2) calc(var(--baseline) * 3) auto;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: calc(var(--baseline) * 2);
+      width: calc(100% - var(--baseline) * 6);
+      color: var(--color-text);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lab-nav a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .lab-nav a:hover {
+      border-bottom-color: var(--color-accent);
+    }
+
+    .page {
+      width: min(1180px, 94vw);
+      margin: 0 auto;
+      padding: calc(var(--baseline) * 12) 0 calc(var(--baseline) * 7);
+      display: grid;
+      gap: calc(var(--baseline) * 4);
+    }
+
+    .page-header {
+      display: grid;
+      gap: calc(var(--baseline) * 1.5);
+      max-width: 54rem;
+    }
+
+    .tag {
+      margin: 0;
+      color: var(--color-accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--font-text);
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .page-header p {
+      margin: 0;
+      max-width: 48rem;
+      color: var(--color-muted);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .layout {
+      display: grid;
+      justify-items: center;
+    }
+
+    .panel {
+      background: var(--color-card);
+      border: 1px solid var(--color-rule);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.08);
+    }
+
+    .probe-panel {
+      width: min(980px, 100%);
+      padding: calc(var(--baseline) * 5);
+      display: grid;
+      gap: calc(var(--baseline) * 3);
+    }
+
+    .panel-header {
+      display: grid;
+      gap: calc(var(--baseline) * 1.25);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-family: var(--font-text);
+    }
+
+    .panel-header h2 {
+      font-size: 1.75rem;
+    }
+
+    .panel-header p {
+      margin: 0;
+      line-height: 1.75;
+      color: var(--color-muted);
+    }
+
+    .sample-board {
+      border: 1px solid var(--color-rule);
+      background:
+        linear-gradient(180deg, rgba(232, 57, 41, 0.08), transparent 34%),
+        var(--color-card);
+      padding: calc(var(--baseline) * 3.5);
+      display: grid;
+      gap: calc(var(--baseline) * 2.5);
+    }
+
+    .sample-board-header {
+      display: flex;
+      justify-content: space-between;
+      gap: calc(var(--baseline) * 2);
+      align-items: baseline;
+    }
+
+    .sample-board-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-family: var(--font-text);
+    }
+
+    .sample-board-header p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--color-muted);
+    }
+
+    .sample-list {
+      display: grid;
+      gap: 0;
+    }
+
+    .sample-item {
+      display: grid;
+      grid-template-columns: minmax(8.5rem, 10rem) minmax(0, 1fr);
+      gap: calc(var(--baseline) * 2.5);
+      align-items: center;
+      padding: calc(var(--baseline) * 1.7) 0;
+      border-top: 1px solid rgba(17, 17, 17, 0.08);
+    }
+
+    .sample-item:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .sample-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .sample-meta {
+      display: grid;
+      gap: calc(var(--baseline) * 0.35);
+      align-content: center;
+      justify-items: start;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .sample-meta code {
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    code {
+      font-family: "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Fira Code", "Consolas", "Liberation Mono", "Menlo", monospace;
+      background: rgba(17, 17, 17, 0.06);
+      padding: 0.1em 0.35em;
+    }
+
+    .guide-shell {
+      width: 100%;
+      min-height: 12rem;
+      border: 1px solid rgba(17, 17, 17, 0.2);
+      overflow: hidden;
+      background:
+        linear-gradient(270deg, rgba(232, 57, 41, 0.12) 0 var(--line-step), transparent var(--line-step) 100%),
+        repeating-linear-gradient(270deg, transparent 0 calc(var(--line-step) - 1px), rgba(17, 17, 17, 0.14) calc(var(--line-step) - 1px) var(--line-step)),
+        rgba(17, 17, 17, 0.018);
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .probe-slot {
+      min-width: var(--line-step);
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .probe-line {
+      margin: 0;
+      width: fit-content;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      line-height: var(--line-step);
+      font-family: var(--font-text);
+      font-size: 1.28rem;
+      letter-spacing: 0.06em;
+      text-align: start;
+      word-break: keep-all;
+      overflow-wrap: normal;
+    }
+
+    .tcu {
+      text-combine-upright: all;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+
+    @media (max-width: 720px) {
+      .lab-nav span {
+        display: none;
+      }
+
+      .page {
+        padding: calc(var(--baseline) * 10) 0 calc(var(--baseline) * 5);
+      }
+
+      .probe-panel {
+        padding: calc(var(--baseline) * 3);
+      }
+
+      .sample-board {
+        padding: calc(var(--baseline) * 2.25);
+      }
+
+      .sample-item {
+        grid-template-columns: minmax(5.2rem, 6rem) minmax(0, 1fr);
+        gap: calc(var(--baseline) * 1.25);
+        padding: calc(var(--baseline) * 1.1) 0;
+      }
+
+      .guide-shell {
+        min-height: 8.6rem;
+      }
+
+      .probe-line {
+        font-size: 1.08rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="lab-nav" aria-label="Demo navigation">
+    <a href="../">&larr; Back to Lab</a>
+    <span>CSS Writing Modes Level 4</span>
+  </nav>
+
+  <main class="page">
+    <header class="page-header">
+      <p class="tag">tate-chu-yoko Demo</p>
+      <h1>纵中横排</h1>
+    </header>
+
+    <section class="layout">
+      <section class="panel probe-panel" aria-label="Observation panel">
+        <!-- <header class="panel-header">
+          <h2>观察区</h2>
+        </header> -->
+
+        <section class="sample-board" aria-label="Text combine upright samples">
+          <!-- <header class="sample-board-header">
+            <h3>样例对照</h3>
+            <p>使用<code>all</code>，每行一个例子</p>
+          </header> -->
+          <div class="sample-list">
+            <article class="sample-item">
+              <div class="sample-meta"><span>1 char</span></div>
+              <div class="guide-shell"><div class="probe-slot"><p class="probe-line">第<span class="tcu">A</span>号文本。</p></div></div>
+            </article>
+            <article class="sample-item">
+              <div class="sample-meta"><span>2 chars</span></div>
+              <div class="guide-shell"><div class="probe-slot"><p class="probe-line">第<span class="tcu">AB</span>号文本。</p></div></div>
+            </article>
+            <article class="sample-item">
+              <div class="sample-meta"><span>3 chars</span></div>
+              <div class="guide-shell"><div class="probe-slot"><p class="probe-line">第<span class="tcu">ABC</span>号文本。</p></div></div>
+            </article>
+            <article class="sample-item">
+              <div class="sample-meta"><span>4 chars</span></div>
+              <div class="guide-shell"><div class="probe-slot"><p class="probe-line">第<span class="tcu">ABCD</span>号文本。</p></div></div>
+            </article>
+            <article class="sample-item">
+              <div class="sample-meta"><span>5 chars</span></div>
+              <div class="guide-shell"><div class="probe-slot"><p class="probe-line">第<span class="tcu">ABCDE</span>号文本。</p></div></div>
+            </article>
+            <article class="sample-item">
+              <div class="sample-meta"><span>4 digits</span></div>
+              <div class="guide-shell"><div class="probe-slot"><p class="probe-line">第<span class="tcu">2024</span>号文本。</p></div></div>
+            </article>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

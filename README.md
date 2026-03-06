@@ -14,6 +14,7 @@ Created by Fuqiao Xue.
 | Vertical Form Controls | `/demos/vertical-form-controls.html` | Demonstrates native text input and button inside vertical text. |
 | Traditional Book | `/demos/traditional-book.html` | Simulates a traditional book page with `vertical-rl`, paragraph indent, and proper-noun underline styling. |
 | Chinese Line Breaking | `/demos/zh-line-breaking.html` | Prohibition rules for line start and line end. |
+| Text Autospace | `/demos/text-autospace.html` | East Asian Spacing. |
 | Symbol of death | `/demos/shiwanghao.html` | Chinese symbol of death with †/‡ comparison. |
 
 Upcoming demos include advanced Ruby annotation experiments.

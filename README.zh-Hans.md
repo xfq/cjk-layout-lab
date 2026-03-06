@@ -13,6 +13,7 @@
 | Vertical Form Controls | `/demos/vertical-form-controls.html` | 展示直排的原生文本输入框与按钮。 |
 | Traditional Book | `/demos/traditional-book.html` | 模拟古籍书页，展示`vertical-rl`、段首缩进与专名号样式。 |
 | Chinese Line Breaking | `/demos/zh-line-breaking.html` | 行首行尾禁则。 |
+| Text Autospace | `/demos/text-autospace.html` | 中西文间距。 |
 | Symbol of death | `/demos/shiwanghao.html` | 示亡号与†/‡对照。 |
 
 后续将补充Ruby等实验。

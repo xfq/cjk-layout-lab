@@ -10,6 +10,7 @@ Created by Fuqiao Xue.
 | Demo | Path | Description |
 | :--- | :--- | :--- |
 | Writing Modes | `/demos/writing-mode.html` | Contrasts horizontal and vertical text with `writing-mode`, `text-orientation`, multi-column layout, and first-line indent. |
+| Vertical Form Controls | `/demos/vertical-form-controls.html` | Demonstrates native text input and button inside vertical text. |
 | Traditional Book | `/demos/traditional-book.html` | Simulates a traditional book page with `vertical-rl`, paragraph indent, and proper-noun underline styling. |
 | Chinese Line Breaking | `/demos/zh-line-breaking.html` | Prohibition rules for line start and line end. |
 | Symbol of death | `/demos/shiwanghao.html` | Chinese symbol of death with †/‡ comparison. |

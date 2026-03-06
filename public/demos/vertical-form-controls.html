@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vertical Form Controls Demo | CJK Layout Lab</title>
+  <style>
+    :root {
+      --baseline: 8px;
+      --color-bg: #f6f1e8;
+      --color-card: rgba(255, 252, 247, 0.88);
+      --color-stage: rgba(255, 255, 255, 0.72);
+      --color-text: #111111;
+      --color-accent: #e83929;
+      --color-rule: rgba(17, 17, 17, 0.16);
+      --color-shadow: rgba(17, 17, 17, 0.1);
+      --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --font-text: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--color-text);
+      font-family: var(--font-ui);
+      background:
+        radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.86), transparent 30%),
+        radial-gradient(circle at 82% 24%, rgba(232, 57, 41, 0.08), transparent 28%),
+        radial-gradient(circle at 72% 82%, rgba(17, 17, 17, 0.08), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 36%),
+        var(--color-bg);
+    }
+
+    .lab-nav {
+      position: fixed;
+      inset: calc(var(--baseline) * 2) calc(var(--baseline) * 3) auto;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: calc(var(--baseline) * 2);
+      width: calc(100% - var(--baseline) * 6);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text);
+    }
+
+    .lab-nav a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .lab-nav a:hover {
+      border-bottom-color: var(--color-accent);
+    }
+
+    .page {
+      width: min(1120px, 94vw);
+      margin: 0 auto;
+      padding: calc(var(--baseline) * 12) 0 calc(var(--baseline) * 7);
+      display: grid;
+      gap: calc(var(--baseline) * 4);
+    }
+
+    .hero,
+    .card {
+      background: var(--color-card);
+      border: 1px solid var(--color-rule);
+      box-shadow: 0 18px 36px var(--color-shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: calc(var(--baseline) * 5);
+      display: grid;
+      gap: calc(var(--baseline) * 2);
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto calc(var(--baseline) * 4) calc(var(--baseline) * 4) auto;
+      inline-size: min(24vw, 220px);
+      block-size: min(24vw, 220px);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(232, 57, 41, 0.15), rgba(232, 57, 41, 0) 68%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .tag {
+      margin: 0;
+      color: var(--color-accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      font-family: var(--font-text);
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 42rem;
+      font-size: clamp(1rem, 1.4vw, 1.12rem);
+      line-height: 1.85;
+    }
+
+    .hero-note {
+      margin: calc(var(--baseline) * 1) 0 0 0;
+      padding-top: calc(var(--baseline) * 2);
+      border-top: 1px solid rgba(17, 17, 17, 0.12);
+      max-width: 36rem;
+      color: rgba(17, 17, 17, 0.74);
+      font-size: 0.92rem;
+      line-height: 1.75;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: calc(var(--baseline) * 3);
+      align-items: stretch;
+    }
+
+    .card {
+      padding: calc(var(--baseline) * 4);
+      display: grid;
+      gap: calc(var(--baseline) * 2.5);
+    }
+
+    .card-header {
+      display: grid;
+      gap: calc(var(--baseline) * 1);
+    }
+
+    .card-title {
+      font-size: 1.7rem;
+    }
+
+    .card-intro {
+      margin: 0;
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: rgba(17, 17, 17, 0.8);
+    }
+
+    .specimen {
+      position: relative;
+      min-block-size: 31rem;
+      padding: calc(var(--baseline) * 3);
+      border: 1px solid rgba(17, 17, 17, 0.18);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.54)),
+        var(--color-stage);
+      overflow: hidden;
+    }
+
+    .specimen::before {
+      content: "";
+      position: absolute;
+      inset: calc(var(--baseline) * 1.5);
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      pointer-events: none;
+    }
+
+    .vertical-flow {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      block-size: 100%;
+      inline-size: 100%;
+      padding-block: calc(var(--baseline) * 2);
+      padding-inline: calc(var(--baseline) * 2);
+      font-family: var(--font-text);
+      font-size: clamp(1.1rem, 1.8vw, 1.36rem);
+      line-height: 1.95;
+      letter-spacing: 0.08em;
+      text-align: justify;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: calc(var(--baseline) * 2);
+    }
+
+    .vertical-copy,
+    .vertical-group,
+    .button-line {
+      margin: 0;
+    }
+
+    .vertical-copy {
+      max-block-size: 100%;
+    }
+
+    .vertical-group {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: calc(var(--baseline) * 1.25);
+    }
+
+    .button-stack {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: calc(var(--baseline) * 1.5);
+    }
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding-block: calc(var(--baseline) * 1.1);
+      padding-inline: calc(var(--baseline) * 0.7);
+      border: 1px solid rgba(17, 17, 17, 0.14);
+      background: rgba(232, 57, 41, 0.08);
+      color: var(--color-accent);
+      font-size: 0.92rem;
+      letter-spacing: 0.16em;
+    }
+
+    input[type="text"],
+    button {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+
+    input[type="text"] {
+      font: inherit;
+      color: inherit;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(17, 17, 17, 0.28);
+      padding-block: calc(var(--baseline) * 1.2);
+      padding-inline: calc(var(--baseline) * 0.9);
+      inline-size: 10.8em;
+      block-size: 3.2em;
+      min-inline-size: 8.6em;
+      border-radius: 0;
+      box-shadow: inset 0 0 0 1px rgba(232, 57, 41, 0.04);
+    }
+
+    input[type="text"]::selection {
+      background: rgba(232, 57, 41, 0.2);
+    }
+
+    .button-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: linear-gradient(180deg, rgba(232, 57, 41, 0.08), rgba(232, 57, 41, 0.16));
+      border: 1px solid rgba(17, 17, 17, 0.28);
+      padding-block: calc(var(--baseline) * 1.15);
+      padding-inline: calc(var(--baseline) * 0.85);
+      min-inline-size: 5.4em;
+      min-block-size: 2.8em;
+      margin: 0;
+      cursor: pointer;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(180deg, rgba(232, 57, 41, 0.14), rgba(232, 57, 41, 0.24));
+      border-color: rgba(232, 57, 41, 0.55);
+    }
+
+    input[type="text"]:focus-visible,
+    button:focus-visible {
+      outline: none;
+      border-color: rgba(17, 17, 17, 0.52);
+      box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+    }
+
+    .note {
+      margin: 0;
+      padding-top: calc(var(--baseline) * 1.5);
+      border-top: 1px solid rgba(17, 17, 17, 0.1);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: rgba(17, 17, 17, 0.76);
+    }
+
+    code {
+      font-family: "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Fira Code", "Consolas", "Liberation Mono", "Menlo", monospace;
+      font-size: 0.9em;
+      background: rgba(17, 17, 17, 0.06);
+      padding: 0.1em 0.3em;
+    }
+
+    @media (max-width: 920px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .specimen {
+        min-block-size: 27rem;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .lab-nav span {
+        display: none;
+      }
+
+      .page {
+        padding: calc(var(--baseline) * 10) 0 calc(var(--baseline) * 5);
+      }
+
+      .hero,
+      .card {
+        padding: calc(var(--baseline) * 3);
+      }
+
+      .specimen {
+        min-block-size: 22rem;
+        padding: calc(var(--baseline) * 2);
+      }
+
+      .vertical-flow {
+        font-size: 1rem;
+        gap: calc(var(--baseline) * 1.2);
+        padding-block: calc(var(--baseline) * 1.2);
+        padding-inline: calc(var(--baseline) * 1.2);
+      }
+
+      input[type="text"] {
+        inline-size: 8.6em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="lab-nav" aria-label="Demo navigation">
+    <a href="../">&larr; Back to Lab</a>
+    <span>CSS Writing Modes + HTML Forms</span>
+  </nav>
+
+  <main class="page">
+    <section class="hero" aria-label="Vertical form controls overview">
+      <p class="tag">VERTICAL FORM CONTROLS DEMO</p>
+      <h1>直排表单控件</h1>
+    </section>
+
+    <section class="gallery" aria-label="Vertical form control specimens">
+      <article class="card">
+        <header class="card-header">
+          <p class="tag">EXAMPLE A</p>
+          <h2 class="card-title">文本输入框</h2>
+        </header>
+        <div class="specimen">
+          <div class="vertical-flow">
+            <div class="vertical-group">
+              <label for="name-field">题签</label>
+              <input id="name-field" type="text" value="山月同天" aria-label="题签内容">
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="card-header">
+          <p class="tag">EXAMPLE B</p>
+          <h2 class="card-title">按钮</h2>
+        </header>
+        <div class="specimen">
+          <div class="vertical-flow">
+            <div class="button-stack">
+              <p class="vertical-copy">山月同天</p>
+              <p class="button-line"><button type="button">送出</button></p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

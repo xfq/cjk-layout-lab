@@ -5,6 +5,7 @@
 ## Overview
 
 This is an Astro-based typography lab focused on CJK layout using native Web standards (HTML/CSS first).
+Created by Fuqiao Xue.
 
 | Demo | Path | Description |
 | :--- | :--- | :--- |

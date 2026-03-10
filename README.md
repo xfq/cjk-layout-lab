@@ -15,7 +15,7 @@ Created by Fuqiao Xue.
 | Traditional Book | `/demos/traditional-book.html` | Simulates a traditional book page with `vertical-rl`, paragraph indent, and proper-noun underline styling. |
 | Chinese Line Breaking | `/demos/zh-line-breaking.html` | Prohibition rules for line start and line end. |
 | Text Autospace | `/demos/text-autospace.html` | East Asian Spacing. |
-| Symbol of death | `/demos/shiwanghao.html` | Chinese symbol of death with †/‡ comparison. |
+| Death-indication mark | `/demos/shiwanghao.html` | Chinese death-indication mark with †/‡ comparison. |
 
 Upcoming demos include advanced Ruby annotation experiments.
 
